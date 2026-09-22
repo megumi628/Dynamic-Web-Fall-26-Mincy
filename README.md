@@ -1,11 +1,11 @@
 # Dynamic-Web-Fall-26-Mincy
 
 Week01\
-creating a recipe card in HTML format
+Creating a recipe card in HTML format
 
 
 Week02\
-transforming recipe card from HTML to react app, and redesign the CSS style
+Transforming recipe card from HTML to react app, and redesign the CSS style
 
 
 Week03\
