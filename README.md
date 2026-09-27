@@ -14,4 +14,4 @@ Building a resuable component called Toast
 
 Week04\
 Adding ToastPage to the Navbar\
-Close things with the esc key (Dropdown)\
+Close things with the esc key (Dropdown)
