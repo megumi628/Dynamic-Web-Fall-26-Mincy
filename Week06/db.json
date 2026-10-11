@@ -1,0 +1,14 @@
+{
+  "todos": [
+    {
+      "id": 2,
+      "title": "Read the week 06 notes",
+      "done": false
+    },
+    {
+      "title": "coding",
+      "done": true,
+      "id": 3
+    }
+  ]
+}
