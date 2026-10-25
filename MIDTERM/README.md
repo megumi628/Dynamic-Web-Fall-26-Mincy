@@ -17,7 +17,7 @@ Two terminals, both from this folder:
 ```bash
 npm install 
 npm run server       # terminal 1: json-server on http://localhost:3001
-npm run dev          # terminal 2: the app, usually http://localhost:5173
+npm run dev          # terminal 2: the app, http://localhost:5173
 ```
 
 If the page says *"Could not reach the server"*, `npm run server` is not running.
