@@ -1,4 +1,4 @@
-# To-Eat List
+# Midterm Project: To-Eat List
 
 A to-do list or checking list for restaurants. Every place I have saved on Google Maps goes on
 the list, sorted by cuisine. I tick it off when I have been, and rate it.
