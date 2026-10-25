@@ -1,0 +1,80 @@
+@import 'tailwindcss';
+
+/* Tailwind scans every project file for class names, db.json included, and
+   re-runs when one changes. db.json changes on every click, so skip it. */
+@source not "../db.json";
+
+/* Apple's palette. Each name becomes a utility: bg-apple-blue, text-apple-gray... */
+@theme {
+  --color-apple-bg: #f5f5f7;
+  --color-apple-ink: #1d1d1f;
+  --color-apple-gray: #86868b;
+  --color-apple-blue: #0071e3;
+  --color-apple-blue-dark: #0077ed;
+  --color-apple-green: #34c759;
+  --color-apple-red: #ff3b30;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--color-apple-bg);
+  color: var(--color-apple-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  /* One look for every text box, so they all match. */
+  .input-apple {
+    @apply w-full rounded-xl border border-black/10 bg-white px-3.5 py-2.5 text-[15px] text-apple-ink outline-none transition;
+  }
+  .input-apple::placeholder {
+    color: var(--color-apple-gray);
+  }
+  .input-apple:focus {
+    @apply border-apple-blue ring-4 ring-apple-blue/20;
+  }
+
+  /* One look for every dropdown. The browser's own arrow is switched off
+     (appearance: none) and our chevron is drawn at a fixed spot 12px from the
+     right edge, vertically centred, with room reserved for it. Native arrows
+     sit in different places in different browsers and sizes, which is what made
+     them look misaligned. */
+  .select-apple {
+    @apply rounded-xl border border-black/10 bg-white py-2.5 pl-3.5 pr-9 text-[15px] text-apple-ink outline-none transition;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2386868b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 0.75rem auto;
+    text-overflow: ellipsis;
+  }
+  .select-apple:focus {
+    @apply border-apple-blue ring-4 ring-apple-blue/20;
+  }
+
+  /* The round "visited" tick, like the one in Reminders. */
+  .check-apple {
+    @apply h-6 w-6 shrink-0 cursor-pointer rounded-full border-2 border-stone-300 bg-white transition;
+    appearance: none;
+    -webkit-appearance: none;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 70%;
+  }
+  .check-apple:checked {
+    background-color: var(--color-apple-green);
+    border-color: var(--color-apple-green);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  .check-apple:focus-visible {
+    @apply ring-4 ring-apple-green/30 outline-none;
+  }
+
+  /* Pill buttons: blue and filled for the main action. */
+  .btn-apple {
+    @apply rounded-full bg-apple-blue px-5 py-2.5 text-[15px] font-medium text-white transition hover:bg-apple-blue-dark active:scale-95;
+  }
+}
