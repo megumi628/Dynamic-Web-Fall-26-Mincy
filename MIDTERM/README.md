@@ -57,9 +57,9 @@ If the page says *"Could not reach the server"*, `npm run server` is not running
 
 ## What I forgot
 
-1. The list can’t be hard-coded
-2. PUT replaces everything
-3. Empty is not zero
+1. Cuisine list can not be hard-coded. I planned a fixed list, but after adding "Other", it must be built dynamically from restaurant data.
+2. PUT replaces the whole record on edit. I need to send all fields, or rating will be lost.
+3. Empty is not zero. "No cuisine" and "not rated" are separate states.
 
 
 ## What I would add with another week
