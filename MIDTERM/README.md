@@ -67,3 +67,6 @@ If the page says *"Could not reach the server"*, `npm run server` is not running
 - A short note per visit. 
 - A quick way to add many places at once.
 - Clicking on the restaurant then automatically redirects to Google Maps.
+
+## Slides
+https://docs.google.com/presentation/d/1Dcyxa_D4IS_QkXbAuRtbKdm6sVUlmff2yXYEpcdIf5s/edit?usp=sharing
