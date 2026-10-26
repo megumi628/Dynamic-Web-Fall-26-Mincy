@@ -57,6 +57,10 @@ If the page says *"Could not reach the server"*, `npm run server` is not running
 
 ## What I forgot
 
+1. The list can’t be hard-coded
+2. PUT replaces everything
+3. Empty is not zero
+
 
 ## What I would add with another week
 
