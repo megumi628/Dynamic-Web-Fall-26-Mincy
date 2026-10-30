@@ -17,6 +17,7 @@ export const createTodo = async ({title, category}) => {
     title,
     category,
     rating: 0,
+    note:'',
     done: false,
   })
   return response.data
