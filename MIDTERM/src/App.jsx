@@ -1,27 +1,6 @@
-/*
- *    The component body runs on every render. Putting a fetch there creates an infinite loop,
- *    because updating state after fetching triggers another render and another fetch.
- *    Fetching is a side‑effect, while rendering should only produce JSX from state and props.
- *    useEffect runs side‑effects after render. The empty dependency array runs the fetch only once
- *    when the component mounts, so state updates will not start new requests.
- *
- *    The UI updates before the server request, which is an optimistic update.
- *    If the server fails, the todo disappears on screen but still exists in the database.
- *    Without rollback logic, the UI shows wrong information until the user refreshes the page.
- *    Keeping await before changing state prevents this problem; failed requests leave the UI unchanged.
- *    Our current deleteTodoById uses proper optimistic update with rollback.
- *    It restores the todo and alerts users when requests fail, unlike the buggy version with no undo.
- *
- *    No network request is needed. All todos are already loaded into local state.
- *    Filtering only uses Array.filter on local data and does not change anything on the server.
- *    CRUD operations modify server‑side data, but filtering only changes how local data displays.
- *    We store only the filter setting in state and calculate visible todos on each render.
- *    Storing a separate filtered array would risk out‑of‑sync state.
- *    The filter state lives in App, which is the shared parent for both the filter control and todo list.
- */
-
 import {useState, useEffect} from 'react'
 import TodoCreate from './components/TodoCreate'
+import TodoBulkCreate from './components/TodoBulkCreate'
 import TodoFilter from './components/TodoFilter'
 import CategoryFilter from './components/CategoryFilter'
 import TodoSearch from './components/TodoSearch'
@@ -75,6 +54,42 @@ const App = () => {
     }
   }
 
+  // `places` is a list of {title, category} from the bulk form. Names already
+  // on the list (ignoring case) are skipped. They go up one at a time so the
+  // ids come back in the order they were typed; if one fails, the ones before
+  // it are still kept.
+  const createManyTodos = async (places) => {
+    setActionError(null)
+    const known = new Set(todos.map((todo) => todo.title.toLowerCase()))
+    const fresh = places.filter((place) => {
+      const key = place.title.toLowerCase()
+      if (known.has(key)) {
+        return false
+      }
+      known.add(key)
+      return true
+    })
+    const skipped = places.length - fresh.length
+
+    for (const place of fresh) {
+      try {
+        const newTodo = await createTodoRequest(place)
+        setTodos((current) => [...current, newTodo])
+      } catch (err) {
+        console.error(err)
+        setActionError(
+          `Could not save "${place.title}" or anything after it. Is \`npm run server\` running?`
+        )
+        return
+      }
+    }
+    if (skipped > 0) {
+      setActionError(
+        `Skipped ${skipped} ${skipped === 1 ? 'place' : 'places'} already on your list.`
+      )
+    }
+  }
+
   //HW: delete a todo by id, with optimistic update and error handling
   const deleteTodoById = async (id) => {
     const removed = todos.find((todo) => todo.id === id)
@@ -90,7 +105,7 @@ const App = () => {
     }
   }
 
-  // `changes` is {title, category} from the edit form. PUT replaces the whole
+ // `changes` is {title, category, note} from the edit form. PUT replaces the whole
   // record, so spread the old todo first to keep done / rating / mapUrl / id.
   const editTodoById = async (id, changes) => {
     setActionError(null)
@@ -187,6 +202,7 @@ const App = () => {
         </h1>
 
         <TodoCreate onCreate={createTodo} categories={categories} />
+        <TodoBulkCreate onCreateMany={createManyTodos} categories={categories} />
         <TodoFilter filter={filter} onChange={setFilter} />
         <div className="mb-5 flex flex-col gap-2 sm:flex-row">
           <TodoSearch search={search} onChange={setSearch} />
