@@ -4,6 +4,17 @@ import TodoEdit from './TodoEdit'
 // 0 means "not rated yet"; 1-5 are stars
 const RATINGS = [0, 1, 2, 3, 4, 5]
 
+// Rows imported from Google Maps carry their own place link. Places added in
+// the app do not, so fall back to a Maps search for the name.
+const mapLink = (todo) => {
+  return (
+    todo.mapUrl ||
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      todo.title
+    )}`
+  )
+}
+
 const TodoItem = (props) => {
   const {todo, categories, categoryColors, onDelete, onEdit, onToggle, onRate} =
     props
@@ -61,14 +72,17 @@ const TodoItem = (props) => {
           className="check-apple mt-0.5"
         />
         <div className="min-w-0">
-          {/* plain text now: the name no longer opens Google Maps */}
-          <p
-            className={`break-words text-[17px] font-medium leading-snug ${
+         {/* the name opens the place on Google Maps, in a new tab */}
+          <a
+            href={mapLink(todo)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`block break-words text-[17px] font-medium leading-snug hover:text-apple-blue hover:underline ${
               todo.done ? 'text-apple-gray' : 'text-apple-ink'
             }`}
           >
             {todo.title}
-          </p>
+          </a>
           <div className="mt-1.5 flex flex-wrap items-center gap-2">
             {todo.category && (
               <span
@@ -90,7 +104,21 @@ const TodoItem = (props) => {
                 {renderedRatings}
               </select>
             )}
+            {/* no note yet on a visited place: offer to write one */}
+            {todo.done && !todo.note && (
+              <button
+                onClick={handleEditClick}
+                className="text-sm text-apple-blue"
+              >
+                Add a note
+              </button>
+            )}
           </div>
+          {todo.note && (
+            <p className="mt-1.5 whitespace-pre-line break-words text-sm text-apple-gray">
+              {todo.note}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex shrink-0 gap-4 pt-0.5 text-[15px]">
