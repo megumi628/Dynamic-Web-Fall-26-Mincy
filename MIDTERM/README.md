@@ -62,7 +62,7 @@ If the page says *"Could not reach the server"*, `npm run server` is not running
 3. Saving changes updates `db.json`. Vite and Tailwind detect the change and reload the page, resetting React state and the filter.
 
 
-## What I would add with another week
+## What I would add with another week (done)
 
 - A short note per visit. 
 - A quick way to add many places at once.
